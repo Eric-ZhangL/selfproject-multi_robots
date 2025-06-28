@@ -23,7 +23,7 @@
 
   <!-- 加载环境 -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find car_model)/world/zwh_sim4.world"/>
+    <!-- <arg name="world_name" value="$(find car_model)/world/zwh_sim4.world"/> -->
     <!-- <arg name="world_name" value="$(find car_model)/world/zwh_sim1.world"/> -->
     <!-- <arg name="world_name" value="$(find car_model)/world/zwh_sim6.world"/> -->
     <arg name="use_sim_time" value="false"/>

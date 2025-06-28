@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/zhangl/lab_sim_model/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/zhangl/lab_sim_model/src/share/common/include/**",
+        "/home/zhangl/lab_sim_model/src/sensor/gps/include/**",
+        "/home/zhangl/lab_sim_model/src/share/gpx/include/**",
+        "/home/zhangl/lab_sim_model/src/car_control/pp_controller/include/**",
+        "/home/zhangl/lab_sim_model/src/record_path/include/**",
+        "/home/zhangl/lab_sim_model/src/sensor/velodyne/velodyne_driver/include/**",
+        "/home/zhangl/lab_sim_model/src/simulation_env/velodyne_simulator/velodyne_gazebo_plugins/include/**",
+        "/home/zhangl/lab_sim_model/src/sensor/velodyne/velodyne_laserscan/include/**",
+        "/home/zhangl/lab_sim_model/src/sensor/velodyne/velodyne_pointcloud/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
