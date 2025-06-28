@@ -1,0 +1,7 @@
+ <launch>
+    <node pkg="imu" type="imu" name="imu" output="screen">
+        <param name="devname" value="/dev/ttyUSB0"/>
+        <param name="baud" value="115200"/>
+    </node>
+ 
+ </launch>

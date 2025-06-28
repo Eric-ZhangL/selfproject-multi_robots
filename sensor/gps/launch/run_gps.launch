@@ -1,0 +1,27 @@
+ <launch>
+    <param name="use_sim_time" value="true" />
+    
+    <node pkg="gps" type="gps_base" name="gps_base" output="screen">
+        <param name="setMapZeroFlag" value="true"/>
+        <param name="utmx_zero" value="0"/>
+        <param name="utmy_zero" value="0"/>
+
+
+        <!--串口和以太网只能选择一个(串口)-->
+        <!--<param name="mode" value="SER"/>
+        <param name="devname" value="/dev/ttyUSB0"/>
+        <param name="baud" value="115200"/>-->
+
+        <!--串口和以太网只能选择一个(以太网)-->
+        <param name="mode" value="UDP"/>
+        <param name="IP" value="192.168.3.2"/>
+        <param name="port" value="1234"/>
+    </node>
+
+    <node pkg="gps" type="gps_pro" name="gps_pro" output="screen">
+    <param name="setMapZeroFlag" value="true"/>
+    </node>
+
+    <!-->node pkg="rviz" name="rviz" type="rviz" args="-d $(find gps)/show.rviz" output="screen"/> -->
+     
+ </launch>

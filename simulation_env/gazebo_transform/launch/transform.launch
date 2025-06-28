@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+
+  <param name="use_sim_time" value="false"/>
+  
+  <!-- rviz -->
+  <!-- <node pkg="rviz" name="rviz" type="rviz" args="-d $(find show_path)/rviz/rviz.rviz" /> -->
+
+  <!-- <node name="display_path" pkg="show_path" type="display_path" output="screen" > -->
+    <!-- <param name="pkg_name" value="record_path"/> --><!-- 文件所在的ros包 -->
+    <!-- <param name="folder_name" value="path_data"/> --><!-- 文件所在的具体文件夹名字 -->
+    <!-- <param name="filename" value="1.txt"/> --><!-- 用于读取路径点的文件名 -->
+  <!-- </node> -->
+
+  <node name="gazebo_transform" pkg="gazebo_transform" type="gazebo_transform" output="screen" >
+  </node>
+  
+</launch>
