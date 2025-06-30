@@ -35,7 +35,6 @@ ros::Subscriber map_origin_sub,gazebo_car_pose_sub,control_sub;
 double base_x=0.0,base_y=0.0;
 double steer_rad;
 vector<geometry_msgs::Point> Path_real;
-std::string robot_name;
 
 void MapOriginCallback(const geometry_msgs::PointStamped::ConstPtr& msg)
 {
@@ -55,9 +54,9 @@ void CarPoseCallback(const gazebo_msgs::ModelStates::ConstPtr& msg)
     //只存model_base
     for(size_t i = 0; i < model_names.size(); i++)
     {
-        if(model_names[i] == robot_name)//获取对应模型信息
+        if(model_names[i] == "mobile_base")//获取对应模型信息
         {
-            car_pose.header.frame_id= robot_name+"/base_link";
+            car_pose.header.frame_id="base_link";
             car_pose.header.stamp=ros::Time::now();
             car_pose.pose.position.x = msg->pose[i].position.x + base_x;
             car_pose.pose.position.y = msg->pose[i].position.y + base_y;
@@ -117,6 +116,7 @@ void CarControlCallback(const geometry_msgs::Twist::ConstPtr& msg)
     gazebo_control.linear.x = msg->linear.x;//m/s
     
     
+
     gazebo_car_control_pub.publish(gazebo_control);
 }
 
@@ -124,22 +124,15 @@ int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "pathtrack");
     ros::NodeHandle nh;
-    ros::NodeHandle local_nh("~");
-    local_nh.param<std::string>("robot_name", robot_name, "mobile_base");
-    for(int i=0;i<10;i++)
-    {
-        printf(" name:%s\n",robot_name.c_str());
-    }
-    
-    map_origin_sub = nh.subscribe("/"+robot_name+"/map_origin",1,&MapOriginCallback);
-    control_sub = nh.subscribe("/"+robot_name+"/car_cmd", 1 ,&CarControlCallback);//接受规划的控制信息，然后转换为gazebo仿真所需的信息
-    gazebo_car_control_pub = nh.advertise<geometry_msgs::Twist>("/"+robot_name+"/cmd_vel",1);//发送转换后的控制信息给gazebo小车
+    map_origin_sub = nh.subscribe("/map_origin",1,&MapOriginCallback);
+    control_sub = nh.subscribe("/car_cmd", 1 ,&CarControlCallback);//接受规划的控制信息，然后转换为gazebo仿真所需的信息
+    gazebo_car_control_pub = nh.advertise<geometry_msgs::Twist>("/cmd_vel",1);//发送转换后的控制信息给gazebo小车
     gazebo_car_pose_sub = nh.subscribe("/gazebo/model_states",10, &CarPoseCallback);//gazebo小车的状态
     
     
-    planner_GPS_pub = nh.advertise<geometry_msgs::PoseStamped>("/"+robot_name+"/gps_base/UTM_coordinate",10);//将gazebo状态转换为GPS后发出
+    planner_GPS_pub = nh.advertise<geometry_msgs::PoseStamped>("/gps_base/UTM_coordinate",10);//将gazebo状态转换为GPS后发出
     //发布速度信息 似乎没有转向信息
-    car_velocity_pub = nh.advertise<geometry_msgs::TwistStamped>("/"+robot_name+"/current_velocity",10);//发布小车的速度和转向信息
+    car_velocity_pub = nh.advertise<geometry_msgs::TwistStamped>("/current_velocity",10);//发布小车的速度和转向信息
 
     ros::Rate loop_rate(20);
     

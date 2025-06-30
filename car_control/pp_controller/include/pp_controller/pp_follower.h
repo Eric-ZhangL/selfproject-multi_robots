@@ -42,7 +42,7 @@ private:
     double ld_;
     double pos_tol_;
     double v_max_, v_, w_max_,wheel_base;
-    
+    std::string robot_name;
 public:
     ros::NodeHandle nh;
     tf::TransformListener *tf_;

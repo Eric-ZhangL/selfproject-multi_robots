@@ -2,12 +2,12 @@
 
 
 PurePursuit::PurePursuit(){
+    nh.param("robot_name",robot_name,std::string("mobile_base"));
+    trajectory_sub_=nh.subscribe("/"+robot_name+"/Path_Load", 10, &PurePursuit::TrajectoryCallback,this);
+    car_pose_sub_ = nh.subscribe("/"+robot_name+"/map_carPose", 10, &PurePursuit::mapCarPoseCallback, this);
 
-    trajectory_sub_=nh.subscribe("/Path_Load", 10, &PurePursuit::TrajectoryCallback,this);
-    car_pose_sub_ = nh.subscribe("/map_carPose", 10, &PurePursuit::mapCarPoseCallback, this);
-
-    pre_point_pub=nh.advertise<visualization_msgs::Marker>("/pp/pre_point_visual",10);
-    control_cmd_pub_ = nh.advertise<geometry_msgs::Twist>("/car_cmd", 1);
+    pre_point_pub=nh.advertise<visualization_msgs::Marker>("/"+robot_name+"/pp/pre_point_visual",10);
+    control_cmd_pub_ = nh.advertise<geometry_msgs::Twist>("/"+robot_name+"/car_cmd", 1);
     tf_=new tf::TransformListener;
 
     goal_reached_ = false;
@@ -104,7 +104,7 @@ void PurePursuit::mapCarPoseCallback(const geometry_msgs::PoseStamped& msg){
     if (!path_.poses.empty() && idx_ >= path_.poses.size()){
         geometry_msgs::PoseStamped base_end_point;
         try{
-            tf_->transformPose("base_link",path_.poses.back(),base_end_point);
+            tf_->transformPose(robot_name+"/base_link",path_.poses.back(),base_end_point);
         }    
         catch(tf::TransformException ex){
             ROS_WARN("Transform exception:%s",ex.what());
@@ -122,7 +122,7 @@ void PurePursuit::mapCarPoseCallback(const geometry_msgs::PoseStamped& msg){
         else{
             tf::StampedTransform transform;
             try{
-                tf_->lookupTransform("map","base_link",ros::Time(), transform);
+                tf_->lookupTransform("map",robot_name+"/base_link",ros::Time(), transform);
             }
             catch (tf::TransformException &ex) {
                 ROS_ERROR("%s",ex.what());

@@ -13,19 +13,19 @@ class CmdVel2Gazebo:
 
     def __init__(self):
         rospy.init_node('cmdvel2gazebo', anonymous=True)
-        robot_name = rospy.get_param('~robot_name', 'mobile_base')
-        self.control_sub = rospy.Subscriber('/'+robot_name+'/cmd_vel', Twist, self.callback)
+        
+        self.control_sub = rospy.Subscriber('/mobile_base/cmd_vel', Twist, self.callback)
 
-        self.pub_steerL_front = rospy.Publisher('/'+robot_name+'/front_left_steering_position_controller/command', Float64, queue_size=1)
-        self.pub_steerR_front = rospy.Publisher('/'+robot_name+'/front_right_steering_position_controller/command', Float64, queue_size=1)
+        self.pub_steerL_front = rospy.Publisher('/mobile_base/front_left_steering_position_controller/command', Float64, queue_size=1)
+        self.pub_steerR_front = rospy.Publisher('/mobile_base/front_right_steering_position_controller/command', Float64, queue_size=1)
 
-        self.pub_steerL_rear = rospy.Publisher('/'+robot_name+'/rear_left_steering_position_controller/command', Float64, queue_size=1)
-        self.pub_steerR_rear = rospy.Publisher('/'+robot_name+'/rear_right_steering_position_controller/command', Float64, queue_size=1)
-        self.pub_frontL = rospy.Publisher('/'+robot_name+'/front_left_velocity_controller/command', Float64, queue_size=1)
-        self.pub_frontR = rospy.Publisher('/'+robot_name+'/front_right_velocity_controller/command', Float64, queue_size=1)
+        self.pub_steerL_rear = rospy.Publisher('/mobile_base/rear_left_steering_position_controller/command', Float64, queue_size=1)
+        self.pub_steerR_rear = rospy.Publisher('/mobile_base/rear_right_steering_position_controller/command', Float64, queue_size=1)
+        self.pub_frontL = rospy.Publisher('/mobile_base/front_left_velocity_controller/command', Float64, queue_size=1)
+        self.pub_frontR = rospy.Publisher('/mobile_base/front_right_velocity_controller/command', Float64, queue_size=1)
 
-        self.pub_rearL = rospy.Publisher('/'+robot_name+'/rear_left_velocity_controller/command', Float64, queue_size=1)
-        self.pub_rearR = rospy.Publisher('/'+robot_name+'/rear_right_velocity_controller/command', Float64, queue_size=1)
+        self.pub_rearL = rospy.Publisher('/mobile_base/rear_left_velocity_controller/command', Float64, queue_size=1)
+        self.pub_rearR = rospy.Publisher('/mobile_base/rear_right_velocity_controller/command', Float64, queue_size=1)
 
         self.pub_angle2north = rospy.Publisher('/car_angle2north', Float64, queue_size=1)
 
@@ -171,5 +171,4 @@ if __name__ == '__main__':
         CmdVel2Gazebo()
     except rospy.ROSInterruptException:
         pass
-
 

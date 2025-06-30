@@ -39,7 +39,7 @@ private:
 
 public:
     int HeartBeat;
-    std::string robot_name;
+
     TGPS_Pro();
     //void GPSDataCallback(const gps::MyGPS_msg::ConstPtr& msg);
     void GPSDataCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
@@ -57,22 +57,22 @@ TGPS_Pro::TGPS_Pro()
 {
     nh = new ros::NodeHandle;  
     nh_local = new ros::NodeHandle("~");
-    nh_local->param("robot_name",robot_name,std::string("mobile_base"));
     //path_cur_pub = nh->advertise<nav_msgs::Path>("GPS_Path",10);
-    path_load_pub = nh->advertise<nav_msgs::Path>("/"+robot_name+"/Path_Load",10);
-    path_save_pub = nh->advertise<nav_msgs::Path>("/"+robot_name+"/Path_Save",10);
+    path_load_pub = nh->advertise<nav_msgs::Path>("Path_Load",10);
+    path_save_pub = nh->advertise<nav_msgs::Path>("Path_Save",10);
     // globalpath_pub  = nh->advertise<smartcar_msgs::Lane>("global_path",1);
     
-    gps_base_sub = nh->subscribe<geometry_msgs::PoseStamped>("/"+robot_name+"/gps_base/UTM_coordinate", 1, &TGPS_Pro::GPSDataCallback,this);
+
+    gps_base_sub = nh->subscribe<geometry_msgs::PoseStamped>("/gps_base/UTM_coordinate", 1, &TGPS_Pro::GPSDataCallback,this);
 
     //gps_base_sub = nh->subscribe<gps::MyGPS_msg>("/gps_base/GPS_Base", 10, &TGPS_Pro::GPSDataCallback,this);
     // gps_base_sub = nh->subscribe<std_msgs::String>("/gps_base/GPS_RawData", 1, &TGPS_Pro::GPSDataCallback,this);
     HeartBeat = 0;
-    map_origin_pub = nh->advertise<geometry_msgs::PointStamped>("/"+robot_name+"/map_origin",1);
+    map_origin_pub = nh->advertise<geometry_msgs::PointStamped>("/map_origin",1);
 
-    map_carPose_pub = nh->advertise<geometry_msgs::PoseStamped>("/"+robot_name+"/map_carPose",1);
+    map_carPose_pub = nh->advertise<geometry_msgs::PoseStamped>("/map_carPose",1);
     
-    marker_pub = nh->advertise<visualization_msgs::Marker>("/"+robot_name+"/car_marker", 1);
+    marker_pub = nh->advertise<visualization_msgs::Marker>("car_marker", 1);
 
     saveflag=false;
 
@@ -100,32 +100,22 @@ void TGPS_Pro::GPSDataCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     nh_local->getParam("setMapZeroFlag",setMapZeroFlag);
     if(setMapZeroFlag)   //  将当前位置设置为Map零点
     { 
-        nh_local->setParam("setMapZeroFlag",false);
-        utmx_zero=msg->pose.position.x;
-        utmy_zero=msg->pose.position.y;
-        nh_local->setParam("utmx_zero",msg->pose.position.x);
-        nh_local->setParam("utmy_zero",msg->pose.position.y);
+            nh_local->setParam("setMapZeroFlag",false);
+            utmx_zero=msg->pose.position.x;
+            utmy_zero=msg->pose.position.y;
+            nh_local->setParam("utmx_zero",msg->pose.position.x);
+            nh_local->setParam("utmy_zero",msg->pose.position.y);
 
-        map_origin_msg.header.seq = 0;
-        map_origin_msg.header.stamp = ros::Time(0);    //如果有问题就使用Time(0)获取时间戳，确保类型一致
-        map_origin_msg.header.frame_id = "map";
-        map_origin_msg.point.x = utmx_zero;
-        map_origin_msg.point.y = utmy_zero;
-        map_origin_msg.point.z = 0;
-        map_origin_pub.publish(map_origin_msg);     //车的起始位置作为map原点
-    }
-    else
-    {
-        map_origin_msg.header.seq = 0;
-        map_origin_msg.header.stamp = ros::Time(0);    //如果有问题就使用Time(0)获取时间戳，确保类型一致
-        map_origin_msg.header.frame_id = "map";
-        map_origin_msg.point.x = 0;
-        map_origin_msg.point.y = 0;
-        map_origin_msg.point.z = 0;
-        map_origin_pub.publish(map_origin_msg);     //车的起始位置作为map原点
+            map_origin_msg.header.seq = 0;
+            map_origin_msg.header.stamp = ros::Time(0);    //如果有问题就使用Time(0)获取时间戳，确保类型一致
+            map_origin_msg.header.frame_id = "map";
+            map_origin_msg.point.x = utmx_zero;
+            map_origin_msg.point.y = utmy_zero;
+            map_origin_msg.point.z = 0;
+            map_origin_pub.publish(map_origin_msg);     //车的起始位置作为map原点
     }
     
-    geometry_msgs::Point map_point, utm_point;
+    geometry_msgs::Point map_point,utm_point;
     utm_point.x=msg->pose.position.x;    
     utm_point.y=msg->pose.position.y;
     map_point=utm2map(utm_point);
@@ -149,12 +139,12 @@ void TGPS_Pro::GPSDataCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
     static tf::TransformBroadcaster br1;
     tf::Transform transform;
     tf::Quaternion quaternion;
-    transform.setOrigin(tf::Vector3(map_point.x, map_point.y, 0)); // base_link在map中的位置
+    transform.setOrigin(tf::Vector3(map_point.x, map_point.y, 0)); //base_link在map中的位置
     //std::cout<<"map_point_car_x: "<<map_point.x<<" map_point_car_y: "<<map_point.y<<std::endl;
     tf::quaternionMsgToTF(msg->pose.orientation, quaternion);
 
     transform.setRotation(quaternion);  //base_link在map中的旋转四元数
-    br1.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", robot_name+"/base_link"));
+    br1.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "base_link"));
     
     geometry_msgs::PoseStamped mapCarPose;
     mapCarPose.header.frame_id="map";

@@ -2,20 +2,33 @@
     
     <!-- gazebo -->
     <include file="$(find car_model)/launch/load_env.launch" />
+    <!-- <include file="$(find car_model)/launch/load_env_backup.launch" /> -->
 
     <!-- 跟踪 -->
-    <node pkg="pp_controller" type="pp_controller"    name="pp_controller"    output="screen"/>
+    
     
     <!-- GPS -->
-    <include file="$(find gps)/launch/run_gps.launch">
-    </include>
-
-     <!-- keyboard -->
+    <group ns="mobile_base_1">
+        <include file="$(find gps)/launch/run_gps.launch">
+            <arg name="robot_name" value="mobile_base_1"/>
+        </include>
+        <node pkg="pp_controller" type="pp_controller"    name="pp_controller"    output="screen">
+            <param name="robot_name" value="mobile_base_1"/>
+        </node>
+    </group>
+    <group ns="mobile_base_2">
+        <include file="$(find gps)/launch/run_gps.launch">
+            <arg name="robot_name" value="mobile_base_2"/>
+        </include>
+        <node pkg="pp_controller" type="pp_controller"    name="pp_controller"    output="screen">
+            <param name="robot_name" value="mobile_base_2"/>
+        </node>
+    </group>
+    <!-- keyboard -->
     <!-- <include file="$(find record_path)/launch/wsk1.launch" /> -->
     <!-- </include> -->
 
 
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pp_controller)/rviz/run_0.rviz"/>
-
 
 </launch>

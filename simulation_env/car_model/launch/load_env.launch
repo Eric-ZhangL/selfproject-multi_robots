@@ -1,43 +1,69 @@
 <?xml version="1.0"?>
 <launch>
+	<!-- 坐标变换 -->
+	
+	
 
-  <!-- 坐标变换 -->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="basebase" args="0 0 0.215 0 0 0  base_link simulation_car_center"/>    
-    <node pkg="tf2_ros" type="static_transform_publisher" name="lidar_base_1" args="0.66 0 0.67 0.0 0 0 base_link velodyne2"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="velo_camera" args="0.069443 -0.10086 -0.2912 1.55864 -3.13546 1.56128 velodyne2 camera"/>    
+	<group ns="mobile_base_1">
+		<node pkg="tf2_ros" type="static_transform_publisher" name="basebase" args="0 0 0.215 0 0 0  mobile_base_1/base_link mobile_base_1/simulation_car_center"/>    
+		<node pkg="tf2_ros" type="static_transform_publisher" name="lidar_base_1" args="0.66 0 0.67 0.0 0 0 mobile_base_1/base_link mobile_base_1/velodyne2"/>
+		<node pkg="tf2_ros" type="static_transform_publisher" name="velo_camera" args="0.069443 -0.10086 -0.2912 1.55864 -3.13546 1.56128 mobile_base_1/velodyne2 mobile_base_1/camera"/>  
+		<!-- 加载模型 -->
+		<include file="$(find car_model)/launch/spawn_xacro.launch">
+			<arg name="x" value="0.0"/>
+			<arg name="y" value="0.0"/>
+			<arg name="z" value="0.0"/>
+			<arg name="urdf_robot_file" value="$(find car_model)/urdf/mobile_base.xacro"/>
+			<arg name="robot_name" value="mobile_base_1"/>
+		</include>
+		<!-- 加载控制器 -->
+		<include file="$(find car_model)/launch/control.launch">
+			<arg name="robot_name" value="mobile_base_1"/>
+			<arg name="config_file" value="mobile_base_control_config.yaml"/>
+		</include>
+		<include file="$(find gazebo_transform)/launch/transform.launch">
+			<arg name="robot_name" value="mobile_base_1"/>
+		</include>
+	</group>
 
-  <!-- 加载模型 -->
-	<include file="$(find car_model)/launch/spawn_xacro.launch">
-		<arg name="x" value="0.0"/>
-		<arg name="y" value="0.0"/>
-		<arg name="z" value="0.0"/>
-		<arg name="urdf_robot_file" value="$(find car_model)/urdf/mobile_base.xacro"/>
-		<arg name="robot_name" value="mobile_base"/>
-	</include>
+	<group ns="mobile_base_2">
+		<node pkg="tf2_ros" type="static_transform_publisher" name="basebase" args="0 0 0.215 0 0 0  mobile_base_2/base_link mobile_base_2/simulation_car_center"/>    
+		<node pkg="tf2_ros" type="static_transform_publisher" name="lidar_base_1" args="0.66 0 0.67 0.0 0 0 mobile_base_2/base_link mobile_base_2/velodyne2"/>
+		<node pkg="tf2_ros" type="static_transform_publisher" name="velo_camera" args="0.069443 -0.10086 -0.2912 1.55864 -3.13546 1.56128 mobile_base_2/velodyne2 mobile_base_2/camera"/>    
+		<include file="$(find car_model)/launch/spawn_xacro.launch">
+			<arg name="x" value="5.0"/>
+			<arg name="y" value="0.0"/>
+			<arg name="z" value="0.0"/>
+			<arg name="urdf_robot_file" value="$(find car_model)/urdf/mobile_base.xacro"/>
+			<arg name="robot_name" value="mobile_base_2"/>
+		</include>
 
-  <!-- 加载控制器 -->
-  <include file="$(find car_model)/launch/control.launch">
-    <arg name="robot_name" value="mobile_base"/>
-    <arg name="config_file" value="mobile_base_control_config.yaml"/>
-  </include>
+		<include file="$(find car_model)/launch/control.launch">
+			<arg name="robot_name" value="mobile_base_2"/>
+			<arg name="config_file" value="mobile_base_control_config.yaml"/>
+		</include>
+		<!-- 收发转换 -->
+		<include file="$(find gazebo_transform)/launch/transform.launch">
+			<arg name="robot_name" value="mobile_base_2"/>
+		</include>
+	</group>
 
-  <!-- 加载环境 -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <!-- <arg name="world_name" value="$(find car_model)/world/zwh_sim4.world"/> -->
-    <!-- <arg name="world_name" value="$(find car_model)/world/zwh_sim1.world"/> -->
-    <!-- <arg name="world_name" value="$(find car_model)/world/zwh_sim6.world"/> -->
-    <arg name="use_sim_time" value="false"/>
-    <arg name="paused" value="false"/>
-    <arg name="gui" value="true"/>
-    <arg name="recording" value="false"/>
-    <arg name="debug" value="false"/>
-   </include>
+	<!-- 加载环境 -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<!-- <arg name="world_name" value="$(find car_model)/world/zwh_sim3.world"/> -->
 
-  <!-- 收发转换 -->
-  <include file="$(find gazebo_transform)/launch/transform.launch"/>
+		<arg name="world_name" value="$(find car_model)/world/simulation.world"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="paused" value="false"/>
+		<arg name="gui" value="true"/>
+		<arg name="recording" value="false"/>
+		<arg name="debug" value="false"/>
+	 </include>
+
+	
 
 
-  <!-- <include file="$(find pp_controller)/launch/run_sim_all.launch"/> -->
+	<!-- <include file="$(find pp_controller)/launch/run_sim_all.launch"/> -->
 
 
 </launch>

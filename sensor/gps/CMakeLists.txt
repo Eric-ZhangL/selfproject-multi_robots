@@ -65,6 +65,22 @@ target_link_libraries(gps_pro
   ${catkin_LIBRARIES}
 )
 
+add_executable(gps_base_backup
+  src/gps_base_backup.cpp
+)
+add_dependencies(gps_base_backup ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gps_base_backup
+  ${catkin_LIBRARIES}
+)
+
+add_executable(gps_pro_backup
+  src/gps_pro_backup.cpp
+)
+add_dependencies(gps_pro_backup ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gps_pro_backup
+  ${catkin_LIBRARIES}
+)
+
 
 
 

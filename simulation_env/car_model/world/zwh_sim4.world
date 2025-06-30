@@ -101,6 +101,64 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+      <model name='mobile_base'>
+        <pose>0.000198 3e-06 -1.7e-05 -1e-06 -0 1e-06</pose>
+        <scale>1 1 1</scale>
+        <link name='front_left_steering_link'>
+          <pose>0.530198 0.310004 0.159987 -1e-06 -0 1e-06</pose>
+          <velocity>0 0 6.5e-05 -3e-06 -1e-06 -0</velocity>
+          <acceleration>-2.3e-05 1.3e-05 3e-06 0 -0 0</acceleration>
+          <wrench>-0.000113 6.5e-05 1.5e-05 0 -0 0</wrench>
+        </link>
+        <link name='front_left_wheel_link'>
+          <pose>0.530198 0.310004 0.159987 -1e-06 0.001237 1e-06</pose>
+          <velocity>0 1e-06 6.8e-05 -3e-06 0 0</velocity>
+          <acceleration>-2.2e-05 4e-06 3e-06 0 -0 0</acceleration>
+          <wrench>-0.000223 3.5e-05 3.3e-05 0 -0 0</wrench>
+        </link>
+        <link name='front_right_steering_link'>
+          <pose>0.530199 -0.309996 0.159987 -1e-06 1e-06 1e-06</pose>
+          <velocity>0 0 6.4e-05 -3e-06 0 -5e-06</velocity>
+          <acceleration>-6e-06 1.3e-05 -3e-06 0 -0 0</acceleration>
+          <wrench>-3.2e-05 6.6e-05 -1.6e-05 0 -0 0</wrench>
+        </link>
+        <link name='front_right_wheel_link'>
+          <pose>0.530199 -0.309996 0.159987 -1e-06 0.00124 1e-06</pose>
+          <velocity>0 1e-06 6.6e-05 -4e-06 1e-06 -5e-06</velocity>
+          <acceleration>-1.8e-05 4e-06 -3e-06 0 -0 0</acceleration>
+          <wrench>-0.000178 3.6e-05 -3.4e-05 0 -0 0</wrench>
+        </link>
+        <link name='rear_left_steering_link'>
+          <pose>-0.529802 0.310003 0.159987 -1e-06 1e-06 1e-06</pose>
+          <velocity>0 1e-06 6.3e-05 -3e-06 0 -1e-06</velocity>
+          <acceleration>-1.4e-05 -1.5e-05 3e-06 0 -0 0</acceleration>
+          <wrench>-6.9e-05 -7.5e-05 1.5e-05 0 -0 0</wrench>
+        </link>
+        <link name='rear_left_wheel_link'>
+          <pose>-0.529802 0.310003 0.159988 -1e-06 0.001236 1e-06</pose>
+          <velocity>0 1e-06 6.6e-05 -3e-06 1e-06 -1e-06</velocity>
+          <acceleration>-8e-06 -5e-06 3e-06 0 -0 0</acceleration>
+          <wrench>-7.6e-05 -5.4e-05 3.1e-05 0 -0 0</wrench>
+        </link>
+        <link name='rear_right_steering_link'>
+          <pose>-0.529801 -0.309997 0.159982 -1e-06 1e-06 1e-06</pose>
+          <velocity>0 0 4.5e-05 -2e-06 -1e-06 3e-06</velocity>
+          <acceleration>1.2e-05 -3.1e-05 -1e-06 0 -0 0</acceleration>
+          <wrench>5.8e-05 -0.000154 -6e-06 0 -0 0</wrench>
+        </link>
+        <link name='rear_right_wheel_link'>
+          <pose>-0.529801 -0.309997 0.159988 -1e-06 0.001243 1e-06</pose>
+          <velocity>0 1e-06 6.5e-05 -4e-06 1e-06 3e-06</velocity>
+          <acceleration>-3e-06 -6e-06 -3e-06 0 -0 0</acceleration>
+          <wrench>-2.8e-05 -5.6e-05 -3.1e-05 0 -0 0</wrench>
+        </link>
+        <link name='simulation_car_center'>
+          <pose>0.000198 3e-06 -1.7e-05 -1e-06 -0 1e-06</pose>
+          <velocity>0 0 4.9e-05 -2e-06 -1e-06 0</velocity>
+          <acceleration>-6e-06 1e-06 -0 6e-06 0 4.9e-05</acceleration>
+          <wrench>-0.006043 0.000532 -2.1e-05 0 -0 0</wrench>
+        </link>
+      </model>
       <model name='unit_cylinder'>
         <pose>5.93292 2.47551 0.499996 3e-06 1e-06 -0</pose>
         <scale>1 1 1</scale>

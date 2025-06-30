@@ -42,6 +42,7 @@ link_directories(${PCL_LIBRARY_DIRS})
 
 add_executable(gazebo_transform src/sub_pub.cpp)
 target_link_libraries(gazebo_transform ${catkin_LIBRARIES} Threads::Threads)
-
+add_executable(gazebo_transform_backup src/sub_pub.cpp)
+target_link_libraries(gazebo_transform_backup ${catkin_LIBRARIES} Threads::Threads)
 #add_executable(test_node src/test.cpp)
 #target_link_libraries(test_node ${catkin_LIBRARIES} ${PCL_LIBRARIES} Threads::Threads)

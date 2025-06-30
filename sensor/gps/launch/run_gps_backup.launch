@@ -1,7 +1,7 @@
  <launch>
     <param name="use_sim_time" value="true" />
-    <arg name="robot_name" default="" />
-    <node pkg="gps" type="gps_base" name="gps_base" output="screen">
+    
+    <node pkg="gps" type="gps_base_backup" name="gps_base_backup" output="screen">
         <param name="setMapZeroFlag" value="true"/>
         <param name="utmx_zero" value="0"/>
         <param name="utmy_zero" value="0"/>
@@ -17,9 +17,8 @@
         <param name="port" value="1234"/>
     </node>
 
-    <node pkg="gps" type="gps_pro" name="gps_pro" output="screen">
-        <param name="setMapZeroFlag" value="false"/>
-        <param name = "robot_name" value = "$(arg robot_name)"/>
+    <node pkg="gps" type="gps_pro_backup" name="gps_pro_backup" output="screen">
+        <param name="setMapZeroFlag" value="true"/>
     </node>
 
     <!-->node pkg="rviz" name="rviz" type="rviz" args="-d $(find gps)/show.rviz" output="screen"/> -->
