@@ -6,5 +6,6 @@
     "python.analysis.extraPaths": [
         "/home/zhangl/lab_sim_model/devel/lib/python3/dist-packages",
         "/opt/ros/noetic/lib/python3/dist-packages"
-    ]
+    ],
+    "ros.distro": "noetic"
 }

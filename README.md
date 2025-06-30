@@ -1,3 +1,8 @@
+  <!-- 基本依赖 -->
+  sudo apt install ros-noetic-serial
+  sudo apt install libpcap-dev
+  sudo apt install ros-noetic-ros-controllers
+
   <!-- 配置过程 -->
  需要将 models 文件拷贝到  主目录隐藏文件.gazebo文件夹下面
  
